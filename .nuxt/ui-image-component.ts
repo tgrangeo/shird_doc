@@ -1,0 +1,1 @@
+export { default } from "/Users/dailyup/Documents/projects/auth_provider_docs_2/node_modules/@nuxt/image/dist/runtime/components/NuxtImg.vue";

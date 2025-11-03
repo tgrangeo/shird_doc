@@ -1,0 +1,12 @@
+{
+  "name": "nuxt-og-image",
+  "compatibility": {
+    "nuxt": ">=3.16.0"
+  },
+  "configKey": "ogImage",
+  "version": "5.1.12",
+  "builder": {
+    "@nuxt/module-builder": "1.0.2",
+    "unbuild": "3.6.1"
+  }
+}

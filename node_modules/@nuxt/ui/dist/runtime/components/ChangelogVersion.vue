@@ -1,0 +1,166 @@
+<script>
+import theme from "#build/ui/changelog-version";
+</script>
+
+<script setup>
+import { computed } from "vue";
+import { Primitive, useDateFormatter } from "reka-ui";
+import { createReusableTemplate } from "@vueuse/core";
+import ImageComponent from "#build/ui-image-component";
+import { useLocale, useAppConfig } from "#imports";
+import { getSlotChildrenText } from "../utils";
+import { tv } from "../utils/tv";
+import ULink from "./Link.vue";
+import UBadge from "./Badge.vue";
+import UUser from "./User.vue";
+defineOptions({ inheritAttrs: false });
+const props = defineProps({
+  as: { type: null, required: false, default: "article" },
+  title: { type: String, required: false },
+  description: { type: String, required: false },
+  date: { type: [String, Date], required: false },
+  badge: { type: [String, Object], required: false },
+  authors: { type: Array, required: false },
+  image: { type: [String, Object], required: false },
+  indicator: { type: Boolean, required: false, default: true },
+  to: { type: null, required: false },
+  target: { type: [String, Object, null], required: false },
+  onClick: { type: Function, required: false },
+  class: { type: null, required: false },
+  ui: { type: null, required: false }
+});
+const slots = defineSlots();
+const { locale } = useLocale();
+const appConfig = useAppConfig();
+const formatter = useDateFormatter(locale.value.code);
+const [DefineLinkTemplate, ReuseLinkTemplate] = createReusableTemplate();
+const [DefineDateTemplate, ReuseDateTemplate] = createReusableTemplate({
+  props: {
+    hidden: {
+      type: Boolean,
+      default: false
+    }
+  }
+});
+const ui = computed(() => tv({ extend: tv(theme), ...appConfig.ui?.changelogVersion || {} })({
+  to: !!props.to || !!props.onClick
+}));
+const date = computed(() => {
+  if (!props.date) {
+    return;
+  }
+  try {
+    return formatter.custom(new Date(props.date), { dateStyle: "medium" });
+  } catch {
+    return props.date;
+  }
+});
+const datetime = computed(() => {
+  if (!props.date) {
+    return;
+  }
+  try {
+    return new Date(props.date)?.toISOString();
+  } catch {
+    return void 0;
+  }
+});
+const ariaLabel = computed(() => {
+  const slotText = slots.title && getSlotChildrenText(slots.title());
+  return (slotText || props.title || "Version link").trim();
+});
+</script>
+
+<template>
+  <DefineLinkTemplate>
+    <ULink
+      v-if="to"
+      :aria-label="ariaLabel"
+      v-bind="{ to, target, ...$attrs }"
+      class="focus:outline-none peer"
+      tabindex="-1"
+      raw
+    >
+      <span class="absolute inset-0" aria-hidden="true" />
+    </ULink>
+  </DefineLinkTemplate>
+
+  <DefineDateTemplate v-slot="{ hidden }">
+    <time v-if="date" :datetime="datetime" :class="ui.date({ class: props.ui?.date, hidden })">
+      <slot name="date">
+        {{ date }}
+      </slot>
+    </time>
+  </DefineDateTemplate>
+
+  <Primitive :as="as" :class="ui.root({ class: [props.ui?.root, props.class] })" @click="onClick">
+    <div v-if="!!props.indicator || !!slots.indicator" :class="ui.indicator({ class: props.ui?.indicator })">
+      <slot name="indicator" :ui="ui">
+        <ReuseDateTemplate />
+
+        <div :class="ui.dot({ class: props.ui?.dot })">
+          <div :class="ui.dotInner({ class: props.ui?.dotInner })" />
+        </div>
+      </slot>
+    </div>
+
+    <div :class="ui.container({ class: props.ui?.container })">
+      <div v-if="!!slots.header || (date || !!slots.date) || (badge || !!slots.badge) || (title || !!slots.title) || (description || !!slots.description) || (image || !!slots.image)" :class="ui.header({ class: props.ui?.header })">
+        <slot name="header">
+          <div v-if="date || !!slots.date || (badge || !!slots.badge)" :class="ui.meta({ class: props.ui?.meta, badge: !!badge || !!slots.badge || !props.indicator })">
+            <slot name="badge" :ui="ui">
+              <UBadge v-if="badge" color="neutral" variant="solid" v-bind="typeof badge === 'string' ? { label: badge } : badge" :class="ui.badge({ class: props.ui?.badge })" />
+            </slot>
+
+            <ReuseDateTemplate :hidden="!!props.indicator" />
+          </div>
+
+          <h2 v-if="title || !!slots.title" :class="ui.title({ class: props.ui?.title })">
+            <ReuseLinkTemplate />
+
+            <slot name="title">
+              {{ title }}
+            </slot>
+          </h2>
+
+          <div v-if="description || !!slots.description" :class="ui.description({ class: props.ui?.description })">
+            <slot name="description">
+              {{ description }}
+            </slot>
+          </div>
+
+          <div v-if="image || !!slots.image" :class="ui.imageWrapper({ class: props.ui?.imageWrapper })">
+            <slot name="image" :ui="ui">
+              <component
+                :is="ImageComponent"
+                v-if="image"
+                v-bind="typeof image === 'string' ? { src: image, alt: title } : { alt: title, ...image }"
+                :class="ui.image({ class: props.ui?.image, to: !!to })"
+              />
+            </slot>
+
+            <ReuseLinkTemplate />
+          </div>
+        </slot>
+      </div>
+
+      <slot name="body" />
+
+      <div v-if="!!slots.footer || (authors?.length || !!slots.authors) || !!slots.actions" :class="ui.footer({ class: props.ui?.footer, body: !!slots.body })">
+        <slot name="footer">
+          <div v-if="authors?.length || !!slots.authors" :class="ui.authors({ class: props.ui?.authors })">
+            <slot name="authors">
+              <UUser
+                v-for="(author, index) in authors"
+                :key="index"
+                v-bind="author"
+              />
+            </slot>
+          </div>
+
+          <slot name="actions" />
+        </slot>
+      </div>
+    </div>
+  </Primitive>
+</template>
