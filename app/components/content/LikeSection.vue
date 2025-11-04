@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 p-4 md:p-6 bg-white dark:bg-gray-900 mx-auto justify-center w-fit max-w-full transition">
+  <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 p-4 md:p-6 mx-auto justify-center w-fit max-w-full transition">
     <img 
       :src="image" 
       :alt="title" 

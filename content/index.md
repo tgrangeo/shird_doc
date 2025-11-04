@@ -203,7 +203,7 @@ class: "max-w-none px-0"
   variant: naked
   ---
   #description
-  Add these lines inside the AuthProvider constructor, then simply call the authWith method.
+  Add these lines inside the Shird constructor, then simply call the authWith method.
     :::prose-pre
     ---
     filename: auth_initialisation.dart
