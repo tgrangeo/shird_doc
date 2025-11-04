@@ -32,7 +32,7 @@
 defineProps({
   image: {
     type: String,
-    default: '/shird_like.png'
+    default: 'shird_like.png'
   },
   title: {
     type: String,

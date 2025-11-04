@@ -2,7 +2,12 @@ export default defineNuxtConfig({
     extends: ['docus'],
     app: {
         baseURL: process.env.NUXT_APP_BASE_URL || '/',
-        buildAssetsDir: '_nuxt/', 
+        buildAssetsDir: '_nuxt/',
+        head: {
+            link: [
+                { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            ]
+        }
     },
 
     nitro: {
