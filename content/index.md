@@ -54,7 +54,7 @@ class: "max-w-none px-0"
 ---
   :::u-page-grid
   ---
-  class: "grid-cols-3 gap-6"
+  class: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
   ---
 
     :::u-page-card
@@ -110,6 +110,9 @@ class: "max-w-none px-0"
     Optimized for seamless integration with your favorite services — [Google]{.text-primary}, [Apple]{.text-primary}, [Microsoft]{.text-primary}, and [more]{.text-primary}. Built for maximum compatibility and effortless setup across ecosystems.
     :::
   :::
+
+
+
   :::u-page-section
   ---
   ui:
