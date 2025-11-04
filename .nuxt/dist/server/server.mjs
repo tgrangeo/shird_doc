@@ -1,1 +1,0 @@
-export { default } from "file:///Users/dailyup/Documents/projects/auth_provider_docs_2/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"
