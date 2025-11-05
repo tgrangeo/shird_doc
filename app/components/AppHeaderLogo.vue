@@ -3,7 +3,7 @@
     <!-- <img src="/bird_shield.png" alt="" class="w-12 h-12 object-cover rounded-lg" /> -->
     <div class="flex items-center justify-center">
     <img
-      src="/bird_gif2.gif"
+      src="/shird_gif.gif"
       alt="GIF"
       class="rounded-lg "
       style="width: 60px;"

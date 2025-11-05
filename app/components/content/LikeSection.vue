@@ -3,7 +3,7 @@
     <img 
       :src="image" 
       :alt="title" 
-      class="w-48 h-48 md:w-64 md:h-64 object-contain rounded-xl flex-shrink-0"
+      class="w-48 h-48 md:w-64 md:h-64 object-contain rounded-xl flex-shrink-0 scale-[1.6]"
     />
     <div class="flex-1 text-center md:text-left">
       <h3 class="text-xl md:text-2xl font-extrabold text-red-400 mb-2 md:mb-3">

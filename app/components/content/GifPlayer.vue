@@ -1,10 +1,9 @@
 <template>
   <div class="flex items-center justify-center">
     <img
-      src="/bird_gif2.gif"
+      src="/shird_gif.gif"
       alt="GIF"
-      class="rounded-lg "
-      style="width: 800px;"
+      class="rounded-lg scale-[1.6]"
     />
   </div>
 </template>
